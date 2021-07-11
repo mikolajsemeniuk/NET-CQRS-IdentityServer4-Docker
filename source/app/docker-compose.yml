@@ -1,0 +1,21 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+
+  identitydb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: identitydb
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P@ssw0rd
+    ports:
+      - 1433:1433
+    volumes:
+      - identitydb_data:/var/opt/mssql
+    # depends_on:
+    #   - rabbitmq
+
+volumes:
+    identitydb_data:

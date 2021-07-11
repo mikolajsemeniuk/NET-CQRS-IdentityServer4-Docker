@@ -9,7 +9,11 @@ dotnet new mvc -o source/app/identity
 dotnet sln add source/app/identity
 
 dotnet watch -p source/app/identity run
+
+docker-compose -f source/app/docker-compose.yml up -d
 ```
 
-## External Ports
+## References
+
+## Ports
 * identity => https://localhost:5001/

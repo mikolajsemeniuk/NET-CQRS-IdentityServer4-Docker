@@ -1,5 +1,9 @@
+using identity.Data;
+using identity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +31,20 @@ namespace identity
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients)
                 .AddDeveloperSigningCredential();
+
+            services.AddDbContext<DataContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentityCore<ApplicationUser>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+            })
+                .AddRoles<ApplicationRole>()
+                .AddRoleManager<RoleManager<ApplicationRole>>()
+                .AddSignInManager<SignInManager<ApplicationUser>>()
+                .AddRoleValidator<RoleValidator<ApplicationRole>>()
+                .AddEntityFrameworkStores<DataContext>();
+            
             // services.AddIdentityServer(options => 
             // {
             //     options.Events.RaiseSuccessEvents = true;
