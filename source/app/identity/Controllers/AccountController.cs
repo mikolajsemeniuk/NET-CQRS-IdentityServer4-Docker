@@ -44,6 +44,7 @@ namespace identity.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRolesAsync(user, new[] { "Member" });
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     // RedirectToAction arg1: method/view name, arg2: controller name
                     // return RedirectToAction("Index", "Home");
