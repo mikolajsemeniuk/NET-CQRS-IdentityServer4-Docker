@@ -31,5 +31,8 @@ namespace identity
                     AllowedScopes = { "api1" }
                 }
             };
+
+        public static IEnumerable<ApiResource> ApiResources { get; internal set; } = new List<ApiResource>();
+        public static IEnumerable<IdentityResource> IdentityResources { get; internal set; } = new List<IdentityResource>();
     }
 }

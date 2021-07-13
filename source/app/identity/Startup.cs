@@ -1,5 +1,7 @@
+using System;
 using identity.Data;
 using identity.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +24,24 @@ namespace identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // order matters !
+            //  1. DB
+            //  2. Identity
+            //  3. IdentityServer
+
+            services.AddDbContext<DataContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            })
+                .AddRoles<ApplicationRole>()
+                .AddRoleManager<RoleManager<ApplicationRole>>()
+                .AddSignInManager<SignInManager<ApplicationUser>>()
+                .AddRoleValidator<RoleValidator<ApplicationRole>>()
+                .AddEntityFrameworkStores<DataContext>();
+
             services.AddIdentityServer(options =>
             {
                 options.Events.RaiseSuccessEvents = true;
@@ -30,33 +50,21 @@ namespace identity
             })
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients)
+                .AddInMemoryApiResources(Config.ApiResources)
+                .AddInMemoryIdentityResources(Config.IdentityResources)
+                .AddAspNetIdentity<ApplicationUser>()
                 .AddDeveloperSigningCredential();
 
-            services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentityCore<ApplicationUser>(options =>
+            services.ConfigureApplicationCookie(options =>
             {
-                options.Password.RequireNonAlphanumeric = false;
-            })
-                .AddRoles<ApplicationRole>()
-                .AddRoleManager<RoleManager<ApplicationRole>>()
-                .AddSignInManager<SignInManager<ApplicationUser>>()
-                .AddRoleValidator<RoleValidator<ApplicationRole>>()
-                .AddEntityFrameworkStores<DataContext>();
-            
-            // services.AddIdentityServer(options => 
-            // {
-            //     options.Events.RaiseSuccessEvents = true;
-            //     options.Events.RaiseErrorEvents = true;
-            //     options.Events.RaiseFailureEvents = true;
-            // })
-                // .AddAspNetIdentity<AppUser>()
-                // .AddInMemoryApiScopes(Config.Scopes)
-                // .AddInMemoryClients(Config.Clients)
-                // .AddInMemoryApiResources(Config.ApiResources)
-                // .AddInMemoryIdentityResources(Config.Resources)
-                // .AddDeveloperSigningCredential();
+                // httponly cookie
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Name = "application.Identity";
+                options.LoginPath = "/Account/Login"; // earlier it was options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Error/Index/403";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.SlidingExpiration = true;
+            });
             
             services.AddControllersWithViews();
         }
@@ -82,6 +90,8 @@ namespace identity
             app.UseRouting();
 
             app.UseIdentityServer();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

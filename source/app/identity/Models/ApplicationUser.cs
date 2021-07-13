@@ -8,4 +8,9 @@ namespace identity.Models
     {
         public ICollection<ApplicationUserRole> UserRoles { get; set; }
     }
+
+    // public class AppUser : IdentityUser<string>
+    // {
+    //     public ICollection<AppUserRole> UserRoles { get; set; }
+    // }
 }

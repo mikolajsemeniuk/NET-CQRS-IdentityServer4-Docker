@@ -15619,8 +15619,23 @@
   "RootNamespace": "identity",
   "Documents": [
     {
+      "FilePath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/identity/Views/Account/Register.cshtml",
+      "TargetPath": "Views\\Account\\Register.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/identity/Views/_ViewImports.cshtml",
       "TargetPath": "Views\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/identity/Views/Shared/_LoginPartial.cshtml",
+      "TargetPath": "Views\\Shared\\_LoginPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/identity/Views/Account/Login.cshtml",
+      "TargetPath": "Views\\Account\\Login.cshtml",
       "FileKind": "mvc"
     },
     {
