@@ -4,14 +4,14 @@
     "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.read/customer.read.csproj": {}
   },
   "projects": {
-    "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.read/customer.read.csproj": {
+    "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.read/customer.read.csproj",
-        "projectName": "customer.read",
-        "projectPath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.read/customer.read.csproj",
+        "projectUniqueName": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/common.csproj",
+        "projectName": "common",
+        "projectPath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/common.csproj",
         "packagesPath": "/Users/mikolajsemeniuk/.nuget/packages/",
-        "outputPath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.read/obj/",
+        "outputPath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/mikolajsemeniuk/.nuget/NuGet/NuGet.Config"
@@ -37,7 +37,71 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.read/customer.read.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.read/customer.read.csproj",
+        "projectName": "customer.read",
+        "projectPath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.read/customer.read.csproj",
+        "packagesPath": "/Users/mikolajsemeniuk/.nuget/packages/",
+        "outputPath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.read/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mikolajsemeniuk/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/common.csproj": {
+                "projectPath": "/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.1.1, )"
+            },
+            "LanguageExt.Core": {
+              "target": "Package",
+              "version": "[3.4.15, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[5.0.0, )",
@@ -51,6 +115,14 @@
               "noWarn": [
                 "NU1605"
               ]
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.12.4, )"
+            },
+            "OneOf": {
+              "target": "Package",
+              "version": "[3.0.190, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

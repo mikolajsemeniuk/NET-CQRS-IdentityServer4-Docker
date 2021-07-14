@@ -1,0 +1,12 @@
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/bin/Debug/net5.0/common.deps.json
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/bin/Debug/net5.0/common.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/bin/Debug/net5.0/ref/common.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/bin/Debug/net5.0/common.pdb
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/obj/Debug/net5.0/common.csprojAssemblyReference.cache
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/obj/Debug/net5.0/common.GeneratedMSBuildEditorConfig.editorconfig
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/obj/Debug/net5.0/common.AssemblyInfoInputs.cache
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/obj/Debug/net5.0/common.AssemblyInfo.cs
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/obj/Debug/net5.0/common.csproj.CoreCompileInputs.cache
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/obj/Debug/net5.0/common.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/obj/Debug/net5.0/ref/common.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/common/obj/Debug/net5.0/common.pdb
