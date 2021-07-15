@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using identity.Models;
 using IdentityServer4.Models;
 
 namespace identity
@@ -45,6 +46,27 @@ namespace identity
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile()
+        };
+
+        public static IEnumerable<ApplicationRole> Roles { get; internal set;} = new List<ApplicationRole>
+        {
+            new ApplicationRole { Name = "Admin" },
+            new ApplicationRole { Name = "Moderator" },
+            new ApplicationRole { Name = "Member" }
+        };
+
+        public static IEnumerable<ApplicationUser> Users { get; internal set;} = new List<ApplicationUser>
+        {
+            new ApplicationUser
+            {
+                Email = "admin@mock.com",
+                UserName = "admin@mock.com",
+            },
+            new ApplicationUser
+            {
+                Email = "moderator@mock.com",
+                UserName = "moderator@mock.com"
+            }
         };
     }
 }

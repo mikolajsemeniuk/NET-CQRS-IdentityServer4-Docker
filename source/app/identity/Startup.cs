@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using identity.Data;
 using identity.Models;
 using IdentityServer4.EntityFramework.DbContexts;
@@ -116,7 +117,7 @@ namespace identity
             });
         }
 
-        private void InitializeDatabase(IApplicationBuilder app)
+        private async void InitializeDatabase(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
@@ -124,6 +125,7 @@ namespace identity
 
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
+
                 if (!context.Clients.Any())
                 {
                     foreach (var client in Config.Clients)
@@ -157,6 +159,33 @@ namespace identity
                     {
                         context.ApiResources.Add(resource.ToEntity());
                     }
+                    context.SaveChanges();
+                }
+
+                var identityContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                identityContext.Database.Migrate();
+                
+                if (!identityContext.Roles.Any())
+                {
+                    foreach (var role in Config.Roles)
+                    {
+                        await roleManager.CreateAsync(role);
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!identityContext.Users.Any())
+                {
+                    var users = Config.Users.ToList();
+
+                    await userManager.CreateAsync(users[0], "P@ssw0rd");
+                    await userManager.AddToRolesAsync(users[0], new[] { "Admin", "Moderator" });
+
+                    await userManager.CreateAsync(users[1], "P@ssw0rd");
+                    await userManager.AddToRolesAsync(users[1], new[] { "Moderator" });
+
                     context.SaveChanges();
                 }
             }
