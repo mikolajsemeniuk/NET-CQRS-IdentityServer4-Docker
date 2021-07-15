@@ -25,6 +25,9 @@ namespace customer.read.Consumers
                 .Find(filter)
                 .FirstOrDefaultAsync();
 
+            customer.Name = context.Message.Name;
+            customer.Surname = context.Message.Surname;
+
             await _context.Customers.ReplaceOneAsync(filter, customer);
         }
     }
