@@ -1,16 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using customer.read.Consumers;
+using customer.read.Data;
+using customer.read.Interfaces;
+using customer.read.Services;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace customer.read
 {
@@ -26,12 +26,41 @@ namespace customer.read
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<DataContext>();
+            services.AddSingleton(serviceProvider => 
+            {
+                var mongoClient = new MongoClient($"mongodb://root:P%40ssw0rd@localhost:27018");
+                return mongoClient.GetDatabase(Configuration["MongoDbSettings:Collection"]);
+            });
+
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = $"{Configuration["IdentityServerSettings:Scheme"]}://{Configuration["IdentityServerSettings:Host"]}:{Configuration["IdentityServerSettings:Port"]}";
+                    options.Audience = Configuration["IdentityServerSettings:Audience"];
+                });
+
+            services.AddMassTransit(options =>
+            {
+                options.AddConsumer<AddCustomerConsumer>();
+                options.AddConsumer<UpdateCustomerConsumer>();
+                options.AddConsumer<RemoveCustomerConsumer>();
+
+                options.UsingRabbitMq((context, configuration) =>
+                {
+                    configuration.Host(Configuration["EventBusSettings:HostAddress"]);
+                    configuration.ConfigureEndpoints(context);
+                });
+            });
+
+            services.AddMassTransitHostedService();
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "customer.read", Version = "v1" });
-            });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "customer.read", Version = "v1" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

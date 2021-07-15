@@ -10,6 +10,7 @@ using MongoDB.Driver;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using customer.write.Data;
 using customer.write.Helpers;
+using MassTransit;
 
 namespace customer.write
 {
@@ -25,9 +26,9 @@ namespace customer.write
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<DataContext>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+            services.AddScoped<DataContext>();
             services.AddSingleton(serviceProvider => 
             {
                 var mongoClient = new MongoClient($"mongodb://root:P%40ssw0rd@localhost:27017");
@@ -40,6 +41,15 @@ namespace customer.write
                     options.Authority = $"{Configuration["IdentityServerSettings:Scheme"]}://{Configuration["IdentityServerSettings:Host"]}:{Configuration["IdentityServerSettings:Port"]}";
                     options.Audience = Configuration["IdentityServerSettings:Audience"];
                 });
+
+            services.AddMassTransit(options =>
+            {
+                options.UsingRabbitMq((context, configuration) =>
+                {
+                    configuration.Host(Configuration["EventBusSettings:HostAddress"]);
+                });
+            });
+            services.AddMassTransitHostedService();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

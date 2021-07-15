@@ -52,3 +52,14 @@
 /Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/common.dll
 /Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/common.pdb
 /Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/LanguageExt.Core.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/Automatonymous.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/GreenPipes.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/MassTransit.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/MassTransit.AspNetCoreIntegration.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/MassTransit.ExtensionsDependencyInjectionIntegration.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/MassTransit.RabbitMqTransport.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/Microsoft.Bcl.AsyncInterfaces.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/NewId.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/Newtonsoft.Json.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/Newtonsoft.Json.Bson.dll
+/Users/mikolajsemeniuk/Projects/C#/NET-CQRS-IdentityServer4-Docker/source/app/services/customer.write/bin/Debug/net5.0/RabbitMQ.Client.dll
