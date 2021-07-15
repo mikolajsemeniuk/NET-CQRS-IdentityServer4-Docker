@@ -19,10 +19,9 @@ docker-compose -f source/app/docker-compose.yml up -d
 * identity => https://localhost:5001/
 
 # TODO:
-    * proxy
-    * settings
     * dockerization
     * https docker
-    * adding logger to customers
     * unit tests
+    * settings
+    * adding logger to customers
     * graphql?
