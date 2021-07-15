@@ -42,6 +42,15 @@ namespace customer.write
                     options.Audience = Configuration["IdentityServerSettings:Audience"];
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy =>
+                {
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim("scope", "customer.fullaccess" /* other claims like: , "catalog.read_access" */);
+                });
+            });
+
             services.AddMassTransit(options =>
             {
                 options.UsingRabbitMq((context, configuration) =>
@@ -49,13 +58,13 @@ namespace customer.write
                     configuration.Host(Configuration["EventBusSettings:HostAddress"]);
                 });
             });
+
             services.AddMassTransitHostedService();
 
             services.AddControllers();
+            
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "customer.write", Version = "v1" });
-            });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "customer.write", Version = "v1" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

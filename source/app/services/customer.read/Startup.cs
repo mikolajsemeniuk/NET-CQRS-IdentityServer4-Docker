@@ -26,14 +26,13 @@ namespace customer.read
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<DataContext>();
             services.AddSingleton(serviceProvider => 
             {
                 var mongoClient = new MongoClient($"mongodb://root:P%40ssw0rd@localhost:27018");
                 return mongoClient.GetDatabase(Configuration["MongoDbSettings:Collection"]);
             });
-
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
             
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -41,6 +40,15 @@ namespace customer.read
                     options.Authority = $"{Configuration["IdentityServerSettings:Scheme"]}://{Configuration["IdentityServerSettings:Host"]}:{Configuration["IdentityServerSettings:Port"]}";
                     options.Audience = Configuration["IdentityServerSettings:Audience"];
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy =>
+                {
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim("scope", "customer.fullaccess" /* other claims like: , "catalog.read_access" */);
+                });
+            });
 
             services.AddMassTransit(options =>
             {
@@ -76,6 +84,8 @@ namespace customer.read
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using customer.read.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace customer.read.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class CustomerController : ControllerBase
+    public class CustomerController : BaseController
     {
         private readonly ICustomerRepository _repository;
         public CustomerController(ICustomerRepository repository)
@@ -19,11 +14,12 @@ namespace customer.read.Controllers
             _repository = repository;
         }
 
-        [Authorize]
+        [Authorize(Policy = "Admin")]
         [HttpGet]
         public async Task<ActionResult> GetCustomersAsync() =>
             Ok(await _repository.GetCustomersAsync());
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult> GetCustomerAsync(Guid id)
         {

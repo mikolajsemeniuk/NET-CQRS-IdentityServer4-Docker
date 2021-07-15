@@ -1,32 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using customer.write.Inputs;
 using customer.write.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace customer.write.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class CustomerController : ControllerBase
+    public class CustomerController : BaseController
     {
         private readonly ICustomerRepository _repository;
 
         public CustomerController(ICustomerRepository repository) =>
             _repository = repository;
-
-        [HttpGet]
-        public async Task<ActionResult> Get() => 
-            Ok(await _repository.GetCustomersAsync());
-
-        [HttpGet("auth")]
+    
         [Authorize]
-        public string Auth() => "auth me";
-
         [HttpPost]
         public async Task<ActionResult> AddCustomerAsync([FromBody] CustomerInput input)
         {
@@ -35,6 +23,7 @@ namespace customer.write.Controllers
                 created => Ok(created.Message));
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCustomerAsync([FromRoute] Guid id, [FromBody] CustomerInput input)
         {
@@ -44,6 +33,7 @@ namespace customer.write.Controllers
                 invalidId => NotFound(invalidId.Message));
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCustomerAsync(Guid id)
         {

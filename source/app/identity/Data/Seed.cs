@@ -32,7 +32,7 @@ namespace identity.Data
             var migrator = context.Database.GetService<IMigrator>();
 
             await context.Database.EnsureDeletedAsync();
-            await migrator.MigrateAsync("Initial", new CancellationToken());
+            await migrator.MigrateAsync("InitialIdentityCoreDbMigration", new CancellationToken());
             await context.Database.EnsureCreatedAsync();
         }
 

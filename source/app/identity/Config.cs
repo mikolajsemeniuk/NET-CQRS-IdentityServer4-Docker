@@ -11,7 +11,7 @@ namespace identity
             {
                 new ApiScope
                 {
-                    Name = "catalog.fullaccess",
+                    Name = "customer.fullaccess",
                     Description = "some description over here"
                 }
             };
@@ -25,7 +25,7 @@ namespace identity
                     AllowedGrantTypes = { "authorization_code" },
                     RequireClientSecret = false,
                     RedirectUris = { "urn:ietf:wg:oauth:2.0:oob" },
-                    AllowedScopes = { "openid", "profile", "catalog.fullaccess" },
+                    AllowedScopes = { "openid", "profile", "customer.fullaccess" },
                     AlwaysIncludeUserClaimsInIdToken = true
                 }
             };
@@ -36,7 +36,7 @@ namespace identity
             new ApiResource
             {
                 Name = "user",
-                Scopes = { "catalog.fullaccess" },
+                Scopes = { "customer.fullaccess" },
                 UserClaims = { "role" }
             }
         };

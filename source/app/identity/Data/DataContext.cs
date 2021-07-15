@@ -10,7 +10,7 @@ namespace identity.Data
                                IdentityUserClaim<Guid>, ApplicationUserRole, IdentityUserLogin<Guid>,
                                IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
-        public DataContext(DbContextOptions options) : base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
 
