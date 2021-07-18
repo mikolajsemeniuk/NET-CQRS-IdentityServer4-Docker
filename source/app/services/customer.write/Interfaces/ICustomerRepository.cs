@@ -10,8 +10,6 @@ namespace customer.write.Interfaces
 {
     public interface ICustomerRepository
     {
-        // TODO: only for dev
-        Task<IEnumerable<CustomerEntity>> GetCustomersAsync();
         Task<OneOf<CustomerCreated>> AddCustomerAsync(CustomerInput input);
         Task<OneOf<CustomerRemoved, CustomerInvalidId>> RemoveCustomerAsync(Guid id);
         Task<OneOf<CustomerUpdated, CustomerInvalidId>> UpdateCustomerAsync(Guid id, CustomerInput input);

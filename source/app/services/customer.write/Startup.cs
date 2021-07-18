@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using customer.write.Data;
 using customer.write.Helpers;
 using MassTransit;
 
@@ -28,7 +27,6 @@ namespace customer.write
         {
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
-            services.AddScoped<DataContext>();
             services.AddSingleton(serviceProvider => 
             {
                 var mongoClient = new MongoClient($"mongodb://root:P%40ssw0rd@localhost:27017");
@@ -47,7 +45,7 @@ namespace customer.write
                 options.AddPolicy("Admin", policy =>
                 {
                     policy.RequireRole("Admin");
-                    policy.RequireClaim("scope", "customer.fullaccess" /* other claims like: , "catalog.read_access" */);
+                    policy.RequireClaim("scope", "customer.fullaccess");
                 });
             });
 

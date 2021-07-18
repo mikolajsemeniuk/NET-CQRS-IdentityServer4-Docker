@@ -21,7 +21,10 @@ docker-compose -f source/app/docker-compose.yml up -d
 # TODO:
     * dockerization
     * https docker
+
     * unit tests
+
     * settings
     * adding logger to customers
+    
     * graphql?
