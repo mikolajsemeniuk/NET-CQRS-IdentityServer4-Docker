@@ -17,14 +17,3 @@ docker-compose -f source/app/docker-compose.yml up -d
 
 ## Ports
 * identity => https://localhost:5001/
-
-# TODO:
-    * dockerization
-    * https docker
-
-    * unit tests
-
-    * settings
-    * adding logger to customers
-    
-    * graphql?

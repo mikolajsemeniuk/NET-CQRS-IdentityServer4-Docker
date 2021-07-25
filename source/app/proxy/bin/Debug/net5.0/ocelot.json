@@ -5,8 +5,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 5004
+                    "Host": "customer_read",
+                    "Port": 5000
                 }
             ],
             "UpstreamPathTemplate": "/customer",
@@ -17,20 +17,20 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 5004
+                    "Host": "customer_read",
+                    "Port": 5000
                 }
             ],
             "UpstreamPathTemplate": "/customer/{id}",
             "UpstreamHttpMethod": [ "Get" ]
         },
         {
-            "DownstreamPathTemplate": "/api/customer/",
+            "DownstreamPathTemplate": "/api/customer",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 5002
+                    "Host": "customer_write",
+                    "Port": 5000
                 }
             ],
             "UpstreamPathTemplate": "/customer",
@@ -41,8 +41,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 5002
+                    "Host": "customer_write",
+                    "Port": 5000
                 }
             ],
             "UpstreamPathTemplate": "/customer/{id}",
@@ -53,8 +53,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 5002
+                    "Host": "customer_write",
+                    "Port": 5000
                 }
             ],
             "UpstreamPathTemplate": "/customer/{id}",
@@ -62,6 +62,7 @@
         }
     ],
     "GlobalConfiguration": {
-        "BaseUrl": "https://localhost:7001"
+        "BaseUrl": "http://localhost:6006",
+        "RequestIdKey": "OcRequestId"
     }
 }

@@ -16,7 +16,7 @@ namespace customer.write.Controllers
     
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> AddCustomerAsync([FromBody] CustomerInput input)
+        public async Task<ActionResult<string>> AddCustomerAsync([FromBody] CustomerInput input)
         {
             var result = await _repository.AddCustomerAsync(input);
             return result.Match<ActionResult>(
@@ -25,7 +25,7 @@ namespace customer.write.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCustomerAsync([FromRoute] Guid id, [FromBody] CustomerInput input)
+        public async Task<ActionResult<string>> UpdateCustomerAsync([FromRoute] Guid id, [FromBody] CustomerInput input)
         {
             var result = await _repository.UpdateCustomerAsync(id, input);
             return result.Match<ActionResult>(
@@ -35,7 +35,7 @@ namespace customer.write.Controllers
 
         [Authorize(Policy = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCustomerAsync(Guid id)
+        public async Task<ActionResult<string>> DeleteCustomerAsync(Guid id)
         {
             var result = await _repository.RemoveCustomerAsync(id);
             return result.Match<ActionResult>(

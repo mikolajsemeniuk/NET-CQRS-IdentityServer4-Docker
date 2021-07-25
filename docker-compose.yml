@@ -1,0 +1,143 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    hostname: rabbitmq
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: always
+    ports:
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  identity_db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: identity_db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P@ssw0rd
+    ports:
+      - 1433:1433  
+    volumes:
+      - identity_db_data:/var/opt/mssql
+
+  customer_write_db:
+    image: mongo
+    container_name: customer_write_db
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: P@ssw0rd
+    volumes:
+      - customer_write_db_data:/data/db
+
+  customer_read_db:
+    image: mongo
+    container_name: customer_read_db
+    restart: always
+    ports:
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: P@ssw0rd
+    volumes:
+      - customer_read_db_data:/data/db
+
+  identity:
+    image: identity
+    container_name: identity
+    build:
+      context: .
+      dockerfile: source/app/identity/Dockerfile
+    ports:
+      - 6001:5000
+      - 6003:443
+    environment:
+      - ConnectionStrings:DefaultConnection=Server=identity_db,1433;Database=app;User Id=sa;Password=P@ssw0rd
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:6003
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    depends_on:
+      - rabbitmq
+      - identity_db
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  customer_write:
+    image: customer.write
+    container_name: customer_write
+    build:
+      context: .
+      dockerfile: source/app/services/customer.write/Dockerfile
+    ports:
+      - 6002:5000
+    environment:
+      - IdentityServerSettings:Host=identity
+      - IdentityServerSettings:Port=443
+      - MongoDbSettings:Host=customer_write_db
+      - MongoDbSettings:Port=27017
+      - EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - rabbitmq
+      - customer_write_db
+      - identity
+
+  customer_read:
+    image: customer.read
+    container_name: customer_read
+    build:
+      context: .
+      dockerfile: source/app/services/customer.read/Dockerfile
+    ports:
+      - 6004:5000
+    environment:
+      - IdentityServerSettings:Host=identity
+      - IdentityServerSettings:Port=443
+      - MongoDbSettings:Host=customer_read_db
+      - MongoDbSettings:Port=27017
+      - EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - rabbitmq
+      - customer_read_db
+      - identity
+
+  proxy:
+    image: proxy
+    container_name: proxy
+    build:
+      context: .
+      dockerfile: source/app/proxy/Dockerfile
+    ports:
+      - 6006:5000
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - rabbitmq
+      - identity
+      - customer_write
+      - customer_read
+
+volumes:
+  rabbitmq_data:
+  portainer_data:
+  identity_db_data:
+  customer_write_db_data:
+  customer_read_db_data:

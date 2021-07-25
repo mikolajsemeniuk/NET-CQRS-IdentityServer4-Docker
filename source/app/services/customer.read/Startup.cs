@@ -30,7 +30,7 @@ namespace customer.read
             services.AddScoped<DataContext>();
             services.AddSingleton(serviceProvider => 
             {
-                var mongoClient = new MongoClient($"mongodb://root:P%40ssw0rd@localhost:27018");
+                var mongoClient = new MongoClient($"mongodb://root:P%40ssw0rd@{Configuration["MongoDbSettings:Host"]}:{Configuration["MongoDbSettings:Port"]}");
                 return mongoClient.GetDatabase(Configuration["MongoDbSettings:Collection"]);
             });
             
@@ -39,6 +39,7 @@ namespace customer.read
                 {
                     options.Authority = $"{Configuration["IdentityServerSettings:Scheme"]}://{Configuration["IdentityServerSettings:Host"]}:{Configuration["IdentityServerSettings:Port"]}";
                     options.Audience = Configuration["IdentityServerSettings:Audience"];
+                    options.RequireHttpsMetadata = false;
                 });
 
             services.AddAuthorization(options =>

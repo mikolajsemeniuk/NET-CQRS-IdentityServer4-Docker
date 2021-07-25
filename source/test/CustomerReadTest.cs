@@ -1,20 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using common.Responses;
 using customer.read.Controllers;
 using customer.read.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using customer.read.Payloads;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
-using System.Linq;
-using common.Responses;
 
-namespace test.Controllers
+namespace test
 {
-    public class CustomerControllerTest
+    public class CustomerReadTest
     {
-        
         private readonly Mock<ICustomerRepository> repository = new();
 
         [Fact]

@@ -1,12 +1,10 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using identity.Data;
 using identity.Models;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

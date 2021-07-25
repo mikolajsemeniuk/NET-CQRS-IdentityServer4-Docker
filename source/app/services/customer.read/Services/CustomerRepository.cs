@@ -13,14 +13,15 @@ namespace customer.read.Services
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly DataContext _context;
+        private const string Customers = "customers";
+        private readonly IMongoDatabase _context;
         private readonly FilterDefinitionBuilder<CustomerEntity> _filter = Builders<CustomerEntity>.Filter;
 
-        public CustomerRepository(DataContext context) =>
+        public CustomerRepository(IMongoDatabase context) =>
             _context = context;
 
         public async Task<IEnumerable<CustomerPayload>> GetCustomersAsync() =>
-            await _context.Customers
+            await _context.GetCollection<CustomerEntity>(Customers)
                 .Find(_filter.Empty)
                 .Project(customer => new CustomerPayload
                 {
@@ -32,7 +33,7 @@ namespace customer.read.Services
 
         public async Task<OneOf<CustomerPayload, CustomerInvalidId>> GetCustomerAsync(Guid id)
         {
-            var customer = await _context.Customers
+            var customer = await _context.GetCollection<CustomerEntity>(Customers)
                 .Find(_filter.Eq(customer => customer.CustomerId, id))
                 .Project(customer => new CustomerPayload
                 {
